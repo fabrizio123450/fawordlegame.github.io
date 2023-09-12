@@ -1,60 +1,110 @@
-const mybutton = document.getElementById('guess-button');
-const palabras = ["actor", "altar","arbol","ropas","manis"];
+/**
+ * Variables
+ */
+const mybutton = document.getElementById('reset');
+const palabras = ["actor", "altar", "arbol", "ropas", "manis"];
 const htmPalabra = document.getElementById('palabra');
-const indiceAleatorio = palabras [Math.floor(Math.random() * palabras.length)];
+const campos = document.querySelectorAll('.campo')
+const indiceAleatorio = palabras[Math.floor(Math.random() * palabras.length)];
 let intentos = 6;
 console.log(indiceAleatorio);
 const palabraD = indiceAleatorio.split('');
 console.log(palabraD);
- // Crear un nuevo elemento div
- const nuevoDiv = document.createElement("div");
+campos.forEach((campo, index) => {
+    campo.addEventListener('input', (event) => {
+        const valor = event.target.value;
+        const inputLength = event.target.value.length;
+        // Si se ingresó una letra, pasar al siguiente campo
+        if (valor.match(/[a-zA-Z]/)) {
+            if (index < campos.length - 1) {
+                campos[index + 1].focus();
+                event.target.setSelectionRange(inputLength, inputLength);
+            }
+        }
+        
+    });
+    campo.addEventListener('keydown', (event) => {
+        
+        // vuelve a la letra anterior
+        if(event.key === 'Backspace'){
+            if(index !== 0){
+                campos[index].value = ''
+                campos[index - 1].focus();
+            }   
+        }
+        if(event.key === 'Enter'){
+            wordlePPY();
+        }
+        
+    });
+    
+});
+/**
+ * juego wordlePPY
+ * @returns si la palabra es pequeña no hace nada
+ */
+function wordlePPY() {
 
- // Crear un nuevo párrafo
- const nuevoParrafo = document.createElement("p");
- nuevoParrafo.textContent = "Este es un nuevo párrafo";
+    const GRID = document.getElementById("grid");
+    const ROW = document.createElement('div');
+    ROW.className = 'row';
 
- // Agregar el párrafo al div
- nuevoDiv.appendChild(nuevoParrafo);
+    let myInput = '';
+    campos.forEach((campo) => {
+        myInput += campo.value.toLowerCase();
+    });
+    console.log(myInput);
 
- // Agregar el div al documento, por ejemplo, al cuerpo (body)
- document.body.appendChild(nuevoDiv);
-
-function wordlePPY(){
-   
-
-    const myInput = document.getElementById('guess-input').value;
     const myInputD = myInput.split('');
     console.log(myInputD);
-    let verdadero;
-    for(let i = 0; i< palabraD.length; i++){
-        console.log(palabraD[i]);
-        verdadero = false;
-        for (let j = 0; j < myInputD.length; j++) {
-            
-            if(myInput[j] === palabraD[i]){
-                console.log ("letra coincide");
-                if(j === i){
-                    console.log("letra verde");
-                    /*htmPalabra.appendChild = palabraD[i];
-                    const nuevoParrafo = document.createElement("p");
-                    nuevoParrafo.textContent = palabraD[i];
-                    nuevoDiv.appendChild(nuevoParrafo);*/
-                }else{
-                    console.log("letra amarilla");
-                }
-                verdadero = true;
-            }
-            
+    if(myInput.length < 5){
+        htmPalabra.innerHTML = "PALABRA CORTA";
+        return;
+    }
+    for (let i in palabraD) {
+        const SPAN = document.createElement('span');
+        SPAN.className = 'letter';
+
+        if (palabraD[i] === myInput[i]) {
+
+            console.log(myInput[i], "VERDE");
+            SPAN.innerHTML = myInput[i];
+            SPAN.style.backgroundColor = 'green';
+
+        } else if (palabraD.includes(myInput[i])) {
+
+            console.log(myInput[i], "AMARILLO");
+            SPAN.innerHTML = myInput[i];
+            SPAN.style.backgroundColor = 'yellow';
+
+        } else {
+
+            console.log(myInput[i], "GRIS");
+            SPAN.innerHTML = myInput[i];
+            SPAN.style.backgroundColor = 'grey';
         }
-        if(!verdadero){
-            console.log("no usar "+ myInput[j]);
-            console.log ("letra no coincide");
-        }
+        ROW.appendChild(SPAN);
+
+    }
+    GRID.appendChild(ROW);
+    --intentos;
+    htmPalabra.innerHTML = "tienes " + intentos + " intentos";
+
+
+    if (myInput.includes(indiceAleatorio) || intentos === 0) {
+        const mensaje = myInput.includes(indiceAleatorio) ? "GANASTE 😀" : "PERDISTE 😖";
+        htmPalabra.innerHTML = mensaje;
+    
+        campos.forEach((campo) => {
+            campo.readOnly = true;
+            campo.blur();
+        });
+    
+        mybutton.style.display = 'block';
     }
     
-    if(myInput.includes(indiceAleatorio)){
-        console.log("GANASTE");
-    }else{
-        console.log("Te quedan "+ --intentos, "intentos");
-    }
+}
+//metodo para recargar la pag de 0
+function reloadF(){
+    window.location.href = window.location.href;
 }

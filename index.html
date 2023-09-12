@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Wordle PPY</title>
-        <link rel="stylesheet" href="./style.css">
-    <script src="./script.js" defer></script>
-  </head>
-  <body>
-    <h1>Wordle PPY</h1>
-    <input type="text" id="guess-input">
-    <button id="guess-button" onclick="wordlePPY()">Intentar</button>
-    <div id="grid">
-        <p id="palabra"></p>
+
+<head>
+  <title>Wordle PPY</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
+</head>
+
+<body>
+  <h1>Wordle PPY</h1>
+  <div id="grid">
+    <h3 id="palabra">Tienes 6 intentos</h3>
+    <div class='row'>
+      <input type="text" class="campo" maxlength="1" autofocus>
+      <input type="text" class="campo" maxlength="1">
+      <input type="text" class="campo" maxlength="1">
+      <input type="text" class="campo" maxlength="1">
+      <input type="text" class="campo" maxlength="1"> <!--id="myInput"-->
     </div>
-    <p id="guesses">
-  </body>
+    
+  </div>
+  <button id="reset" onclick="reloadF()">reintentar ⟳</button>
+  <p id="guesses">
+</body>
+
 </html>
