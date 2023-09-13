@@ -7,9 +7,8 @@ const htmPalabra = document.getElementById('palabra');
 const campos = document.querySelectorAll('.campo')
 const indiceAleatorio = palabras[Math.floor(Math.random() * palabras.length)];
 let intentos = 6;
-console.log(indiceAleatorio);
 const palabraD = indiceAleatorio.split('');
-console.log(palabraD);
+console.log(indiceAleatorio);
 campos.forEach((campo, index) => {
     campo.addEventListener('input', (event) => {
         const valor = event.target.value;
@@ -53,10 +52,8 @@ function wordlePPY() {
     campos.forEach((campo) => {
         myInput += campo.value.toLowerCase();
     });
-    console.log(myInput);
-
-    const myInputD = myInput.split('');
-    console.log(myInputD);
+   
+    
     if(myInput.length < 5){
         htmPalabra.innerHTML = "PALABRA CORTA";
         return;
@@ -66,20 +63,14 @@ function wordlePPY() {
         SPAN.className = 'letter';
 
         if (palabraD[i] === myInput[i]) {
-
-            console.log(myInput[i], "VERDE");
             SPAN.innerHTML = myInput[i];
             SPAN.style.backgroundColor = 'green';
 
         } else if (palabraD.includes(myInput[i])) {
-
-            console.log(myInput[i], "AMARILLO");
             SPAN.innerHTML = myInput[i];
             SPAN.style.backgroundColor = 'yellow';
 
         } else {
-
-            console.log(myInput[i], "GRIS");
             SPAN.innerHTML = myInput[i];
             SPAN.style.backgroundColor = 'grey';
         }
@@ -108,3 +99,24 @@ function wordlePPY() {
 function reloadF(){
     window.location.href = window.location.href;
 }
+
+// Abrir el modal cuando se hace clic en el botón
+const openModalBtn = document.getElementById('openModalBtn');
+const modal = document.getElementById('myModal');
+const closeModalBtn = document.querySelector('.close');
+
+openModalBtn.addEventListener('click', function() {
+    modal.style.display = 'block';
+});
+
+// Cerrar el modal cuando se hace clic en la "X"
+closeModalBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+// Cerrar el modal cuando se hace clic fuera del modal
+window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
